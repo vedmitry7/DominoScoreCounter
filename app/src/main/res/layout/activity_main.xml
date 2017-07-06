@@ -11,29 +11,49 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"-->
 
-    <TextView
-        android:text=""
-        android:gravity="center"
-        android:textColor="#FF0000"
-        android:textSize="24sp"
-        android:id="@+id/certain_score"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        />
+        android:id="@+id/certain_score_layout">
+
+        <TextView
+            android:text=""
+            android:gravity="center"
+            android:textColor="#FF0000"
+            android:textSize="42sp"
+            android:id="@+id/certain_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            />
+
+        <RelativeLayout
+            android:layout_below="@+id/certain_score"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:background="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp">
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/score_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/keyboard"
-        android:layout_below="@+id/certain_score">
+        android:layout_below="@+id/certain_score_layout"
+        >
 
         <LinearLayout
             android:id="@+id/scoreboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:layout_above ="@+id/final_score"
            >
 
      <!--       <ScrollView
@@ -53,7 +73,7 @@
             </ScrollView>-->
             <TextView
                 android:onClick="onClick"
-                android:textSize="24sp"
+                android:textSize="44sp"
                 android:text=""
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
@@ -63,9 +83,11 @@
 
 
             <RelativeLayout
+                android:layout_marginTop="3dp"
                 android:background="#000000"
                 android:layout_width="1dp"
-                android:layout_height="match_parent"></RelativeLayout>
+                android:layout_height="match_parent">
+            </RelativeLayout>
 
         <!--    <ScrollView
                 android:id="@+id/second_scroll"
@@ -82,7 +104,7 @@
 
             <TextView
                 android:onClick="onClick"
-                android:textSize="24sp"
+                android:textSize="44sp"
                 android:text=""
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
@@ -101,26 +123,64 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <TextView
-                android:text="0"
-                android:textSize="20sp"
 
-                android:id="@+id/first_final_score"
-                android:textColor="#0000FF"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
 
-            <TextView
-                android:text="0"
-                android:textSize="20sp"
-                android:id="@+id/second_final_score"
-                android:textColor="#00FF00"
-                android:gravity="center"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_marginLeft="6dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp">
+                </RelativeLayout>
+
+                <TextView
+                    android:text="0"
+                    android:textSize="42sp"
+                    android:id="@+id/first_final_score"
+                    android:textColor="#00FF00"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="#000000"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="6dp">
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_marginRight="6dp"
+                    android:background="#000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp">
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_alignParentTop="true"
+                    android:text="0"
+                    android:textSize="42sp"
+                    android:id="@+id/second_final_score"
+                    android:textColor="#0000FF"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
+
         </LinearLayout>
 
 
@@ -142,6 +202,7 @@
 
             <Button
             android:text="1"
+                android:background="#eee"
                 android:id="@+id/btn_1"
             android:onClick="onClick"
             android:layout_width="wrap_content"
@@ -149,6 +210,8 @@
             android:layout_weight="1"/>
             <Button
                 android:text="2"
+                android:background="#eee"
+
                 android:id="@+id/btn_2"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -156,6 +219,7 @@
                 android:layout_weight="1"/>
             <Button
                 android:text="3"
+                android:background="#eee"
                 android:id="@+id/btn_3"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -171,6 +235,8 @@
 
             <Button
                 android:text="4"
+                android:background="#eee"
+
                 android:id="@+id/btn_4"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -179,6 +245,8 @@
 
             <Button
                 android:text="5"
+                android:background="#eee"
+
                 android:id="@+id/btn_5"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -186,6 +254,8 @@
                 android:layout_weight="1"/>
             <Button
                 android:text="6"
+                android:background="#eee"
+
                 android:id="@+id/btn_6"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -201,6 +271,8 @@
 
             <Button
                 android:text="7"
+                android:background="#eee"
+
                 android:id="@+id/btn_7"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -208,6 +280,8 @@
                 android:layout_weight="1"/>
             <Button
                 android:text="8"
+                android:background="#eee"
+
                 android:id="@+id/btn_8"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -215,6 +289,8 @@
                 android:layout_weight="1"/>
             <Button
                 android:text="9"
+                android:background="#eee"
+
                 android:id="@+id/btn_9"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
@@ -229,23 +305,28 @@
             android:orientation="horizontal">
 
             <Button
-                android:background="#99FF0000"
+                android:background="#55FF0000"
                 android:text="ТУДА!"
                 android:id="@+id/tuda"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
+
             <Button
                 android:text="0"
+                android:background="#eee"
+
                 android:id="@+id/btn_0"
                 android:onClick="onClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
             <Button
-                android:text="Яйца"
-                android:onClick="onClick"
+                android:text="Заново"
+                android:background="#eee"
+
+                android:onClick="newGame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
