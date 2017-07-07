@@ -13,34 +13,6 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/certain_score_layout">
-
-        <TextView
-            android:text=""
-            android:gravity="center"
-            android:textColor="#FF0000"
-            android:textSize="42sp"
-            android:id="@+id/certain_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            />
-
-        <RelativeLayout
-            android:layout_below="@+id/certain_score"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:background="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="1dp">
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
         android:id="@+id/score_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,31 +28,48 @@
             android:layout_above ="@+id/final_score"
            >
 
-     <!--       <ScrollView
+<!--
+         <ScrollView
                 android:clickable="true"
                 android:onClick="onClick"
                 android:id="@+id/first_scroll"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
-                    android:textSize="24sp"
-                    android:text=""
-                    android:id="@+id/first_score_board"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+             <TextView
+                 android:onClick="onClick"
+                 android:textSize="44sp"
+                 android:text=""
+                 android:gravity="center_horizontal"
+                 android:layout_weight="1"
+                 android:id="@+id/first_score_board"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent" />
 
-            </ScrollView>-->
-            <TextView
-                android:onClick="onClick"
-                android:textSize="44sp"
-                android:text=""
-                android:gravity="center_horizontal"
-                android:layout_weight="1"
-                android:id="@+id/first_score_board"
+            </ScrollView>
+-->
+
+
+            <ListView
+                android:paddingRight="6dp"
+                android:paddingLeft="6dp"
+                android:id="@+id/firstListView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:divider="@android:color/black"
+                android:dividerHeight="1dp"
+                android:scrollbars="none"/>
 
+  <!--      <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+        >
+
+        </android.support.v7.widget.RecyclerView>
+-->
 
             <RelativeLayout
                 android:layout_marginTop="3dp"
@@ -102,15 +91,26 @@
                         android:layout_height="wrap_content" />
                 </ScrollView>-->
 
-            <TextView
-                android:onClick="onClick"
+          <!--  <TextView
                 android:textSize="44sp"
                 android:text=""
+                android:onClick="onClick"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
                 android:id="@+id/second_score_board"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" />-->
+
+            <ListView
+                android:paddingRight="6dp"
+                android:paddingLeft="6dp"
+                android:id="@+id/second_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:divider="@android:color/black"
+                android:dividerHeight="1dp"
+                android:scrollbars="none"/>
 
 
 
@@ -183,6 +183,73 @@
 
         </LinearLayout>
 
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/certain_score_layout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <Button
+            android:layout_marginLeft="6dp"
+            android:id="@+id/btn_setting"
+            android:onClick="onClick"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:alpha="0.2"
+            android:background="@drawable/ic_settings_grey600_36dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <RelativeLayout
+            android:layout_below="@+id/certain_score"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:background="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp">
+        </RelativeLayout>
+
+        <Button
+            android:layout_marginRight="6dp"
+            android:id="@+id/backspace"
+            android:onClick="onClick"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:alpha="0.2"
+            android:background="@drawable/ic_backspace_grey600_48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+             />
+
+        <TextView
+            android:text="0"
+            android:gravity="center"
+            android:textColor="#FF0000"
+            android:textSize="42sp"
+            android:id="@+id/certain_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/backspace"
+            android:layout_toRightOf="@+id/btn_setting"/>
 
     </RelativeLayout>
 
@@ -270,6 +337,7 @@
             android:orientation="horizontal">
 
             <Button
+
                 android:text="7"
                 android:background="#eee"
 
@@ -301,15 +369,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <Button
-                android:background="#55FF0000"
-                android:text="ТУДА!"
-                android:id="@+id/tuda"
-                android:onClick="onClick"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/cancel"
+                android:background="#eee"
+                android:src="@drawable/ic_cancel_grey600_48dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:onClick="onClickCancel"
+                android:layout_width="0dp"
+                android:padding="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
@@ -319,19 +390,18 @@
 
                 android:id="@+id/btn_0"
                 android:onClick="onClick"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
             <Button
                 android:text="Заново"
                 android:background="#eee"
-
                 android:onClick="newGame"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>Z
 </RelativeLayout>

@@ -5,10 +5,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ScrollView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,159 +24,170 @@ public class MainActivity extends AppCompatActivity {
 
     private int firstValue, secondValue;
 
-    private ScrollView firstScroll, secondScroll;
-
     private MediaPlayer mp;
 
     private int[] sounds;
 
     private boolean gameIsOver;
 
+    List<String> firstList, secondList;
+
+    ListView firstListView, secondListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        firstList = new ArrayList<>();
+        secondList = new ArrayList<>();
 
-        sounds = new int[]{R.raw.igrulia,R.raw.leha,R.raw.leha_vania,R.raw.vania};
+
         initView();
+
+        sounds = new int[]{R.raw.igrulia, R.raw.leha, R.raw.leha_vania, R.raw.vania};
+
 
     }
 
     private void initView() {
+      //  Typeface typeface = Typeface.createFromAsset(getAssets(),"font/LHANDW.TTF");
+
+
         certainScore = (TextView) findViewById(R.id.certain_score);
         firstFinalScore = (TextView) findViewById(R.id.first_final_score);
         secondFinalScore = (TextView) findViewById(R.id.second_final_score);
 
-        firstScoreBoard = (TextView) findViewById(R.id.first_score_board);
-        secondScoreBoard = (TextView) findViewById(R.id.second_score_board);
+        //firstScoreBoard = (TextView) findViewById(R.id.first_score_board);
+        //secondScoreBoard = (TextView) findViewById(R.id.second_score_board);
 
-        //  firstScroll = (ScrollView) findViewById(R.id.first_scroll);
- /*       firstScoreBoard.setOnClickListener(new View.OnClickListener() {
+        firstListView = (ListView) findViewById(R.id.firstListView);
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter(this,
+                R.layout.list_item, firstList);
+        firstListView.setAdapter(adapter);
+
+        firstListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                certainScore.setText("sdfgh");
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+
+                    if(gameIsOver)
+                        return false;
+
+
+
+
+
+
+
+
+
+
+
+           /*         if(gameIsOver)
+                        return false;
+
+                    System.out.println("Touch");
+                    if(certainScore.getText().equals("")){
+                        certainScore.setText("0");
+                        return false;
+                    }
+
+                    certainValue = Integer.valueOf((String) certainScore.getText());
+
+                    firstValue = firstValue + certainValue;
+                    firstFinalScore.setText(String.valueOf(firstValue));
+
+                    certainScore.setText("0");
+
+                    if(certainValue != 0) {
+                        firstList.add(String.valueOf(certainValue));
+                        adapter.notifyDataSetChanged();
+                        //countriesList.scrollListBy(list.size()-1);
+                        firstListView.setSelection(firstList.size()-1);
+                    }
+
+                    if(firstValue>=101){
+                        certainScore.setText("ХВАТАЕТ!");
+                        gameIsOver = true;
+                    }*/
+
+                }
+                return false;
             }
-        });*/
+        });
+
     }
 
     public void onClick(View v){
 
-
         System.out.println("C Score " + certainScore.getText());
+
+        if(v.getId() == R.id.backspace){
+            if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
+                certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
+            }
+            if(certainScore.getText() == "")
+                certainScore.setText("0");
+            return;
+        }
 
         if(gameIsOver)
             return;
 
-        if(certainScore.getText().equals("0")){
-            certainScore.setText("");
-        }
-
-
-        switch (v.getId()){
-
+        switch (v.getId()) {
             case R.id.btn_0:
-                certainScore.setText(certainScore.getText()+"0");
+                certainScore.setText(certainScore.getText() + "0");
                 break;
             case R.id.btn_1:
-                certainScore.setText(certainScore.getText()+"1");
+                certainScore.setText(certainScore.getText() + "1");
                 break;
             case R.id.btn_2:
-                certainScore.setText(certainScore.getText()+"2");
+                certainScore.setText(certainScore.getText() + "2");
                 break;
             case R.id.btn_3:
-                certainScore.setText(certainScore.getText()+"3");
+                certainScore.setText(certainScore.getText() + "3");
                 break;
             case R.id.btn_4:
-                certainScore.setText(certainScore.getText()+"4");
+                certainScore.setText(certainScore.getText() + "4");
                 break;
             case R.id.btn_5:
-                certainScore.setText(certainScore.getText()+"5");
+                certainScore.setText(certainScore.getText() + "5");
                 break;
             case R.id.btn_6:
-                certainScore.setText(certainScore.getText()+"6");
+                certainScore.setText(certainScore.getText() + "6");
                 break;
             case R.id.btn_7:
-                certainScore.setText(certainScore.getText()+"7");
+                certainScore.setText(certainScore.getText() + "7");
                 break;
             case R.id.btn_8:
-                certainScore.setText(certainScore.getText()+"8");
+                certainScore.setText(certainScore.getText() + "8");
                 break;
             case R.id.btn_9:
-                certainScore.setText(certainScore.getText()+"9");
-                break;
-            case R.id.tuda:
-                certainScore.setText("21");
-                break;
-            case R.id.first_score_board:
-                if(certainScore.getText().equals("")){
-                    certainScore.setText("0");
-                    return;
-                }
-
-                certainValue = Integer.valueOf((String) certainScore.getText());
-                if(certainValue == 21){
-                    playSound();
-                }
-                firstValue = firstValue + certainValue;
-                firstFinalScore.setText(String.valueOf(firstValue));
-
-                certainScore.setText("0");
-
-                if(firstScoreBoard.getText().equals("")){
-                    System.out.println("EQ");
-                    firstScoreBoard.setText(String.valueOf(firstValue));
-                }
-                else {
-                    System.out.println("NE EQ");
-                    System.out.println(firstFinalScore);
-                    System.out.println(firstFinalScore.length());
-                    firstScoreBoard.setText(firstScoreBoard.getText() +"\r\n " + certainValue);
-                }
-
-                if(firstValue>101){
-                    certainScore.setText("ХВАТАЕТ!");
-                    gameIsOver = true;
-                }
-                break;
-            case R.id.second_score_board:
-                if(certainScore.getText().equals("")){
-                    certainScore.setText("0");
-                    return;
-                }
-
-                certainValue = Integer.valueOf((String) certainScore.getText());
-                if(certainValue == 21){
-                    playSound();
-                }
-                secondValue = secondValue + certainValue;
-                secondFinalScore.setText(String.valueOf(secondValue));
-                certainScore.setText("0");
-
-                if(secondScoreBoard.getText().equals("")){
-                    secondScoreBoard.setText(String.valueOf(secondValue));
-                }
-                else {
-                    secondScoreBoard.setText(secondScoreBoard.getText() +"\r\n " + certainValue);
-                }
-
-                if(secondValue>101){
-                    certainScore.setText("ХВАТАЕТ!");
-                    gameIsOver = true;
-                }
+                certainScore.setText(certainScore.getText() + "9");
                 break;
         }
 
-        if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
+        String certainText = (String) certainScore.getText();
+        if(certainText.startsWith("0")&&certainText.length()>1){
+            certainText = certainText.substring(1, certainText.length());
+            certainScore.setText(certainText);
+            System.out.println("after" + certainScore.getText());
+        }
+
+
+       if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
             certainValue = Integer.valueOf((String) certainScore.getText());
-            if(certainValue > 101){
+            if(certainValue >= 101){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
                 return;
             }
         }
-        if(certainScore.getText().equals(""))
-            certainScore.setText("0");
+
     }
+
+
 
     private void playSound(){
         int i = new Random().nextInt(4);
@@ -189,8 +204,9 @@ public class MainActivity extends AppCompatActivity {
             certainValue = 0;
             firstFinalScore.setText("0");
             secondFinalScore.setText("0");
-            firstScoreBoard.setText("");
-            secondScoreBoard.setText("");
+            firstList.clear();
+            secondList.clear();
+
             gameIsOver = false;
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -218,6 +234,11 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
 
         }
+    }
+
+    public void onClickCancel(View v){
+        System.out.println("WORK!!");
+
     }
 
 }
