@@ -1,7 +1,6 @@
 package com.example.dmitryvedmed.dominocounter;
 
 import android.content.DialogInterface;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,15 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
     private int firstValue, secondValue;
 
-    private MediaPlayer mp;
-
-    private int[] sounds;
-
     private boolean gameIsOver;
+
+    private byte lastAddition;
 
     List<String> firstList, secondList;
 
     ListView firstListView, secondListView;
+
+    ArrayAdapter<String> firstAdapter, secondAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +40,12 @@ public class MainActivity extends AppCompatActivity {
         firstList = new ArrayList<>();
         secondList = new ArrayList<>();
 
-
         initView();
-
-        sounds = new int[]{R.raw.igrulia, R.raw.leha, R.raw.leha_vania, R.raw.vania};
-
 
     }
 
     private void initView() {
-      //  Typeface typeface = Typeface.createFromAsset(getAssets(),"font/LHANDW.TTF");
-
+        //  Typeface typeface = Typeface.createFromAsset(getAssets(),"font/LHANDW.TTF");
 
         certainScore = (TextView) findViewById(R.id.certain_score);
         firstFinalScore = (TextView) findViewById(R.id.first_final_score);
@@ -61,58 +54,78 @@ public class MainActivity extends AppCompatActivity {
         //firstScoreBoard = (TextView) findViewById(R.id.first_score_board);
         //secondScoreBoard = (TextView) findViewById(R.id.second_score_board);
 
-        firstListView = (ListView) findViewById(R.id.firstListView);
+        firstListView = (ListView) findViewById(R.id.first_list_view);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter(this,
+        firstAdapter = new ArrayAdapter(this,
                 R.layout.list_item, firstList);
-        firstListView.setAdapter(adapter);
+        firstListView.setAdapter(firstAdapter);
+
 
         firstListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
 
-                    if(gameIsOver)
-                        return false;
-
-
-
-
-
-
-
-
-
-
-
-           /*         if(gameIsOver)
-                        return false;
-
-                    System.out.println("Touch");
-                    if(certainScore.getText().equals("")){
-                        certainScore.setText("0");
+                    if(gameIsOver||certainScore.getText().equals("0")){
                         return false;
                     }
 
-                    certainValue = Integer.valueOf((String) certainScore.getText());
-
+                    String certainText = (String) certainScore.getText();
+                    certainValue = Integer.valueOf(certainText);
                     firstValue = firstValue + certainValue;
-                    firstFinalScore.setText(String.valueOf(firstValue));
+                    lastAddition = 1;
 
+                    firstList.add(certainText);
+                    firstFinalScore.setText(String.valueOf(firstValue));
                     certainScore.setText("0");
 
-                    if(certainValue != 0) {
-                        firstList.add(String.valueOf(certainValue));
-                        adapter.notifyDataSetChanged();
-                        //countriesList.scrollListBy(list.size()-1);
-                        firstListView.setSelection(firstList.size()-1);
-                    }
+                    firstAdapter.notifyDataSetChanged();
+                    firstListView.setSelection(firstList.size()-1);
 
-                    if(firstValue>=101){
+                    if(firstValue >= 101){
                         certainScore.setText("ХВАТАЕТ!");
                         gameIsOver = true;
-                    }*/
+                    }
+                }
+                return false;
+            }
+        });
 
+
+        secondListView = (ListView) findViewById(R.id.second_list_view);
+
+        secondAdapter = new ArrayAdapter(this,
+                R.layout.list_item, secondList);
+        secondListView.setAdapter(secondAdapter);
+
+
+        secondListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+
+                    if(gameIsOver||certainScore.getText().equals("0")){
+                        return false;
+                    }
+
+                    String certainText = (String) certainScore.getText();
+                    certainValue = Integer.valueOf(certainText);
+                    secondValue = secondValue + certainValue;
+                    lastAddition = 2;
+
+                    secondList.add(certainText);
+                    secondFinalScore.setText(String.valueOf(secondValue));
+                    certainScore.setText("0");
+
+                    secondAdapter.notifyDataSetChanged();
+                    secondListView.setSelection(secondList.size()-1);
+
+                    if(secondValue >= 101){
+                        certainScore.setText("ХВАТАЕТ!");
+                        gameIsOver = true;
+                    }
                 }
                 return false;
             }
@@ -127,8 +140,9 @@ public class MainActivity extends AppCompatActivity {
         if(v.getId() == R.id.backspace){
             if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
+                System.out.println("\"" + certainScore.getText() + "\"");
             }
-            if(certainScore.getText() == "")
+            if(certainScore.getText().equals(""))
                 certainScore.setText("0");
             return;
         }
@@ -177,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-       if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
+        if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
             certainValue = Integer.valueOf((String) certainScore.getText());
             if(certainValue >= 101){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
@@ -187,58 +201,81 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-    private void playSound(){
-        int i = new Random().nextInt(4);
-        System.out.println(i);
-        mp = MediaPlayer.create(MainActivity.this, sounds[i]);
-        mp.start();
-    }
-
-    public void newGame(View v){
+    public void restart(View v){
         if(gameIsOver){
-            firstValue = 0;
-            secondValue = 0;
-            certainScore.setText("");
-            certainValue = 0;
-            firstFinalScore.setText("0");
-            secondFinalScore.setText("0");
-            firstList.clear();
-            secondList.clear();
-
-            gameIsOver = false;
+            setToZero();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Новая игра?");
             dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    firstValue = 0;
-                    secondValue = 0;
-                    certainScore.setText("");
-                    certainValue = 0;
-                    firstFinalScore.setText("0");
-                    secondFinalScore.setText("0");
-                    firstScoreBoard.setText("");
-                    secondScoreBoard.setText("");
-                    gameIsOver = false;
+                    setToZero();
                 }
             });
             dialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
                 }
             });
             dialog.show();
-
         }
     }
 
-    public void onClickCancel(View v){
-        System.out.println("WORK!!");
+    private void setToZero(){
+        firstValue = 0;
+        secondValue = 0;
+        certainScore.setText("0");
+        certainValue = 0;
+        firstFinalScore.setText("0");
+        secondFinalScore.setText("0");
+        firstList.clear();
+        firstAdapter.notifyDataSetChanged();
+        secondList.clear();
+        gameIsOver = false;
 
+    }
+
+    public void cancelLastInput(View v){
+        if(lastAddition==1||lastAddition==2){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Отменить последний ввод?");
+            dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if(lastAddition == 1){
+                        int lastValue = Integer.valueOf(firstList.get(firstList.size()-1));
+                        firstValue = firstValue - lastValue;
+                        firstFinalScore.setText(String.valueOf(firstValue));
+                        firstList.remove(firstList.get(firstList.size()-1));
+                        firstAdapter.notifyDataSetChanged();
+                        if(gameIsOver){
+                            certainScore.setText("0");
+                            gameIsOver = false;
+                        }
+                        lastAddition = 0;
+                    }
+                    if(lastAddition == 2){
+                        int lastValue = Integer.valueOf(secondList.get(secondList.size()-1));
+                        secondValue = secondValue - lastValue;
+                        secondFinalScore.setText(String.valueOf(secondValue));
+                        secondList.remove(secondList.get(secondList.size()-1));
+                        secondAdapter.notifyDataSetChanged();
+                        if(gameIsOver){
+                            certainScore.setText("0");
+                            gameIsOver = false;
+                        }
+                        lastAddition = 0;
+                    }
+                }
+            });
+            dialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            dialog.show();
+        }
     }
 
 }

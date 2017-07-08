@@ -28,48 +28,16 @@
             android:layout_above ="@+id/final_score"
            >
 
-<!--
-         <ScrollView
-                android:clickable="true"
-                android:onClick="onClick"
-                android:id="@+id/first_scroll"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-             <TextView
-                 android:onClick="onClick"
-                 android:textSize="44sp"
-                 android:text=""
-                 android:gravity="center_horizontal"
-                 android:layout_weight="1"
-                 android:id="@+id/first_score_board"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent" />
-
-            </ScrollView>
--->
-
-
             <ListView
                 android:paddingRight="6dp"
                 android:paddingLeft="6dp"
-                android:id="@+id/firstListView"
+                android:id="@+id/first_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:divider="@android:color/black"
                 android:dividerHeight="1dp"
                 android:scrollbars="none"/>
-
-  <!--      <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-        >
-
-        </android.support.v7.widget.RecyclerView>
--->
 
             <RelativeLayout
                 android:layout_marginTop="3dp"
@@ -78,28 +46,6 @@
                 android:layout_height="match_parent">
             </RelativeLayout>
 
-        <!--    <ScrollView
-                android:id="@+id/second_scroll"
-                android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:textSize="24sp"
-                        android:id="@+id/second_score_board"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </ScrollView>-->
-
-          <!--  <TextView
-                android:textSize="44sp"
-                android:text=""
-                android:onClick="onClick"
-                android:gravity="center_horizontal"
-                android:layout_weight="1"
-                android:id="@+id/second_score_board"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />-->
 
             <ListView
                 android:paddingRight="6dp"
@@ -111,8 +57,6 @@
                 android:divider="@android:color/black"
                 android:dividerHeight="1dp"
                 android:scrollbars="none"/>
-
-
 
         </LinearLayout>
 
@@ -378,7 +322,7 @@
                 android:src="@drawable/ic_cancel_grey600_48dp"
                 android:layout_gravity="center"
                 android:scaleType="centerInside"
-                android:onClick="onClickCancel"
+                android:onClick="cancelLastInput"
                 android:layout_width="0dp"
                 android:padding="10dp"
                 android:layout_height="wrap_content"
@@ -396,7 +340,7 @@
             <Button
                 android:text="Заново"
                 android:background="#eee"
-                android:onClick="newGame"
+                android:onClick="restart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
