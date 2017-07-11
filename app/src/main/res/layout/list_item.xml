@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:textSize="44sp">
+    android:textSize="44sp"
+    android:text="12"
+    android:textColor="@android:color/black"
+    android:alpha="0.54">
 
 </TextView>

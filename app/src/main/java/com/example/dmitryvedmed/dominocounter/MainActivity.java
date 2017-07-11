@@ -1,12 +1,15 @@
 package com.example.dmitryvedmed.dominocounter;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,7 +19,20 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final String ZERO = "0";
+    private static final long VIBRATION_TIME = 25L;
+    private static final int ALPHA_54 = 138;
+    private static final int  ALPHA_87 = 222;
+
     private TextView certainScore, firstFinalScore, secondFinalScore;
+
+    private ImageButton btn_cancel;
+
+    private List<String> firstList, secondList;
+
+    private ListView firstListView, secondListView;
+
+    private ArrayAdapter<String> firstAdapter, secondAdapter;
 
     private int certainValue;
 
@@ -25,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean gameIsOver;
 
     private byte lastAddition;
-
-    private List<String> firstList, secondList;
-
-    private ListView firstListView, secondListView;
-
-    private ArrayAdapter<String> firstAdapter, secondAdapter;
-
-    private static final String ZERO = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         secondList = new ArrayList<>();
 
         initView();
-
     }
 
     private void initView() {
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
 
-                    if(gameIsOver||certainScore.getText().equals("0")){
+                    if(gameIsOver || certainScore.getText().equals(ZERO)){
                         return false;
                     }
 
@@ -72,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                     certainValue = Integer.valueOf(certainText);
                     firstValue = firstValue + certainValue;
                     lastAddition = 1;
+                    btn_cancel.getDrawable().setAlpha(ALPHA_87);
+                    btn_cancel.setClickable(true);
 
                     firstList.add(certainText);
                     firstFinalScore.setText(String.valueOf(firstValue));
@@ -111,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                     certainValue = Integer.valueOf(certainText);
                     secondValue = secondValue + certainValue;
                     lastAddition = 2;
+                    btn_cancel.getDrawable().setAlpha(ALPHA_87);
+                    btn_cancel.setClickable(true);
 
                     secondList.add(certainText);
                     secondFinalScore.setText(String.valueOf(secondValue));
@@ -128,12 +139,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn_cancel = (ImageButton) findViewById(R.id.cancel);
+        btn_cancel.getDrawable().setAlpha(ALPHA_87);
+        btn_cancel.setClickable(false);
+
     }
 
     public void onClick(View v){
 
         if(v.getId() == R.id.backspace){
-            if(!certainScore.getText().equals("")&&!certainScore.getText().equals(getString(R.string.enough))){
+
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(VIBRATION_TIME);
+
+            if(!certainScore.getText().equals("") && !certainScore.getText().equals(getString(R.string.enough))){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
             }
             if(certainScore.getText().equals(""))
@@ -184,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        if(!certainScore.getText().equals("")&&!certainScore.getText().equals(getString(R.string.enough))){
+        if(!certainScore.getText().equals("") && !certainScore.getText().equals(getString(R.string.enough))){
             certainValue = Integer.valueOf((String) certainScore.getText());
             if(certainValue >= 101){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
@@ -192,9 +211,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(VIBRATION_TIME);
+
     }
 
     public void restart(View v){
+
         if(gameIsOver){
             setToZero();
         } else {
@@ -204,6 +227,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     setToZero();
+                    btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                    btn_cancel.setClickable(false);
                 }
             });
             dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -226,11 +251,11 @@ public class MainActivity extends AppCompatActivity {
         firstAdapter.notifyDataSetChanged();
         secondList.clear();
         gameIsOver = false;
-
     }
 
     public void cancelLastInput(View v){
-        if(lastAddition==1||lastAddition==2){
+
+        if(lastAddition == 1 || lastAddition == 2){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle(R.string.question_cancel_last_enter);
             dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -247,6 +272,8 @@ public class MainActivity extends AppCompatActivity {
                             gameIsOver = false;
                         }
                         lastAddition = 0;
+                        btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                        btn_cancel.setClickable(false);
                     }
                     if(lastAddition == 2){
                         int lastValue = Integer.valueOf(secondList.get(secondList.size()-1));
@@ -259,6 +286,8 @@ public class MainActivity extends AppCompatActivity {
                             gameIsOver = false;
                         }
                         lastAddition = 0;
+                        btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                        btn_cancel.setClickable(false);
                     }
                 }
             });

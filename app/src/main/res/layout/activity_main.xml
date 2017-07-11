@@ -85,6 +85,7 @@
 
                 <TextView
                     android:text="0"
+                    android:alpha="0.87"
                     android:textSize="42sp"
                     android:id="@+id/first_final_score"
                     android:textColor="#00FF00"
@@ -115,6 +116,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:alpha="0.87"
                     android:layout_alignParentTop="true"
                     android:text="0"
                     android:textSize="42sp"
@@ -186,6 +188,7 @@
 
         <TextView
             android:text="0"
+            android:alpha="0.87"
             android:gravity="center"
             android:textColor="#FF0000"
             android:textSize="42sp"
@@ -324,7 +327,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/cancel"
                 android:background="@drawable/button_bg"
-                android:src="@drawable/ic_cancel_grey600_48dp"
+                android:src="@drawable/ic_cancel_black_24dp"
                 android:layout_gravity="center"
                 android:scaleType="centerInside"
                 android:onClick="cancelLastInput"
