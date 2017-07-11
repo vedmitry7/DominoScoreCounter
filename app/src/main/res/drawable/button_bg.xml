@@ -4,28 +4,6 @@
         <shape>
             <solid
                 android:color="@color/color_btn_pressed_true" />
-
-        </shape>
-    </item>
-    <item android:state_focused="true" >
-        <shape>
-            <solid
-                android:color="@color/color_btn_pressed_true" />
-
-        </shape>
-    </item>
-    <item android:state_active="true" >
-        <shape>
-            <solid
-                android:color="@color/color_btn_pressed_true" />
-
-        </shape>
-    </item>
-    <item android:state_selected="true" >
-        <shape>
-            <solid
-                android:color="@color/color_btn_pressed_true" />
-
         </shape>
     </item>
     <item>

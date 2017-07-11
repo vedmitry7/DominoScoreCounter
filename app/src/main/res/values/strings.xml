@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DominoCounter</string>
+    <string name="enough">ХВАТАЕТ!</string>
+    <string name="question_new_game">Новая игра?</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Отмена</string>
+    <string name="question_cancel_last_enter">Отменить последний ввод?</string>
 </resources>

@@ -16,7 +16,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private TextView certainScore, firstFinalScore, secondFinalScore, firstScoreBoard, secondScoreBoard;
+    private TextView certainScore, firstFinalScore, secondFinalScore;
 
     private int certainValue;
 
@@ -26,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
     private byte lastAddition;
 
-    List<String> firstList, secondList;
+    private List<String> firstList, secondList;
 
-    ListView firstListView, secondListView;
+    private ListView firstListView, secondListView;
 
-    ArrayAdapter<String> firstAdapter, secondAdapter;
+    private ArrayAdapter<String> firstAdapter, secondAdapter;
+
+    private static final String ZERO = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        //  Typeface typeface = Typeface.createFromAsset(getAssets(),"font/LHANDW.TTF");
-
         certainScore = (TextView) findViewById(R.id.certain_score);
         firstFinalScore = (TextView) findViewById(R.id.first_final_score);
         secondFinalScore = (TextView) findViewById(R.id.second_final_score);
-
-        //firstScoreBoard = (TextView) findViewById(R.id.first_score_board);
-        //secondScoreBoard = (TextView) findViewById(R.id.second_score_board);
 
         firstListView = (ListView) findViewById(R.id.first_list_view);
 
@@ -78,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
                     firstList.add(certainText);
                     firstFinalScore.setText(String.valueOf(firstValue));
-                    certainScore.setText("0");
+                    certainScore.setText(ZERO);
 
                     firstAdapter.notifyDataSetChanged();
                     firstListView.setSelection(firstList.size()-1);
 
                     if(firstValue >= 101){
-                        certainScore.setText("ХВАТАЕТ!");
+                        certainScore.setText(getString(R.string.enough));
                         gameIsOver = true;
                     }
                 }
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
 
-                    if(gameIsOver||certainScore.getText().equals("0")){
+                    if(gameIsOver||certainScore.getText().equals(ZERO)){
                         return false;
                     }
 
@@ -117,13 +114,13 @@ public class MainActivity extends AppCompatActivity {
 
                     secondList.add(certainText);
                     secondFinalScore.setText(String.valueOf(secondValue));
-                    certainScore.setText("0");
+                    certainScore.setText(ZERO);
 
                     secondAdapter.notifyDataSetChanged();
                     secondListView.setSelection(secondList.size()-1);
 
                     if(secondValue >= 101){
-                        certainScore.setText("ХВАТАЕТ!");
+                        certainScore.setText(getString(R.string.enough));
                         gameIsOver = true;
                     }
                 }
@@ -135,15 +132,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v){
 
-        System.out.println("C Score " + certainScore.getText());
-
         if(v.getId() == R.id.backspace){
-            if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
+            if(!certainScore.getText().equals("")&&!certainScore.getText().equals(getString(R.string.enough))){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
-                System.out.println("\"" + certainScore.getText() + "\"");
             }
             if(certainScore.getText().equals(""))
-                certainScore.setText("0");
+                certainScore.setText(ZERO);
             return;
         }
 
@@ -184,14 +178,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String certainText = (String) certainScore.getText();
-        if(certainText.startsWith("0")&&certainText.length()>1){
+        if(certainText.startsWith(ZERO)&&certainText.length()>1){
             certainText = certainText.substring(1, certainText.length());
             certainScore.setText(certainText);
-            System.out.println("after" + certainScore.getText());
         }
 
 
-        if(!certainScore.getText().equals("")&&!certainScore.getText().equals("ХВАТАЕТ!")){
+        if(!certainScore.getText().equals("")&&!certainScore.getText().equals(getString(R.string.enough))){
             certainValue = Integer.valueOf((String) certainScore.getText());
             if(certainValue >= 101){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
@@ -206,14 +199,14 @@ public class MainActivity extends AppCompatActivity {
             setToZero();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Новая игра?");
-            dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            dialog.setTitle(R.string.question_new_game);
+            dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     setToZero();
                 }
             });
-            dialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
@@ -225,10 +218,10 @@ public class MainActivity extends AppCompatActivity {
     private void setToZero(){
         firstValue = 0;
         secondValue = 0;
-        certainScore.setText("0");
+        certainScore.setText(ZERO);
         certainValue = 0;
-        firstFinalScore.setText("0");
-        secondFinalScore.setText("0");
+        firstFinalScore.setText(ZERO);
+        secondFinalScore.setText(ZERO);
         firstList.clear();
         firstAdapter.notifyDataSetChanged();
         secondList.clear();
@@ -239,8 +232,8 @@ public class MainActivity extends AppCompatActivity {
     public void cancelLastInput(View v){
         if(lastAddition==1||lastAddition==2){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Отменить последний ввод?");
-            dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            dialog.setTitle(R.string.question_cancel_last_enter);
+            dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if(lastAddition == 1){
@@ -250,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                         firstList.remove(firstList.get(firstList.size()-1));
                         firstAdapter.notifyDataSetChanged();
                         if(gameIsOver){
-                            certainScore.setText("0");
+                            certainScore.setText(ZERO);
                             gameIsOver = false;
                         }
                         lastAddition = 0;
@@ -262,14 +255,14 @@ public class MainActivity extends AppCompatActivity {
                         secondList.remove(secondList.get(secondList.size()-1));
                         secondAdapter.notifyDataSetChanged();
                         if(gameIsOver){
-                            certainScore.setText("0");
+                            certainScore.setText(ZERO);
                             gameIsOver = false;
                         }
                         lastAddition = 0;
                     }
                 }
             });
-            dialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
