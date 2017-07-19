@@ -17,8 +17,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String  PREFERENCES = "domino_prefs";
     private static final String  NUMBER_OF_PLAYERS = "number_of_players";
     private static final String  WIN_VALUE = "win_value";
+    private static final String  SHOW_NAMES = "show_names";
 
     private TextView certainScore;
 
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int[] values;
 
-    private boolean gameIsOver;
+    private boolean gameIsOver, showName;
 
     private byte lastAddition;
 
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     EditText et;
+    EditText et2;
+    EditText et3;
+    EditText et4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         numberOfPlayers = sharedPreferences.getInt(NUMBER_OF_PLAYERS, 2);
         winValue = sharedPreferences.getInt(WIN_VALUE, 101);
+        showName = sharedPreferences.getBoolean(SHOW_NAMES, false);
 
         if(numberOfPlayers == 2){
             setContentView(R.layout.activity_main);
@@ -106,53 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
-        final EditText et2 = (EditText) findViewById(R.id.lable_second);
-
-
-        et2.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
-                    et2.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    return true;
-                }
-
-                if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
-                    et2.clearFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
-
-        et = (EditText) findViewById(R.id.lable_first);
-
-        et.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                System.out.println("KEEEEY");
-                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
-                    et.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    return true;
-                }
-
-                if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
-                    et.clearFocus();
-                    System.out.println("CATCH BACK");
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
-
        // LinearLayout linearLayout = findViewById(R.id.)
 
 
@@ -161,10 +121,19 @@ public class MainActivity extends AppCompatActivity {
 */
     }
 
-    /*@Override
+    private static long back_pressed;
+
+    @Override
     public void onBackPressed() {
-        System.out.println("bback");
-    }*/
+        if (back_pressed + 2000 > System.currentTimeMillis())
+            super.onBackPressed();
+        else
+            Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода!",
+                    Toast.LENGTH_SHORT).show();
+        back_pressed = System.currentTimeMillis();
+    }
+
+
 
     private void initView() {
         certainScore = (TextView) findViewById(R.id.certain_score);
@@ -226,6 +195,64 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+        et = (EditText) findViewById(R.id.lable_first);
+
+        et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                System.out.println("KEEEEY");
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et.clearFocus();
+                    return true;
+                }
+
+                if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et.clearFocus();
+                    System.out.println("CATCH BACK");
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        et2 = (EditText) findViewById(R.id.lable_second);
+
+        et2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et2.clearFocus();
+                    return true;
+                }
+
+                if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et2.clearFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        if(!showName) {
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.name_first_container);
+            linearLayout.setVisibility(View.GONE);
+
+            LinearLayout linearLayout2 = (LinearLayout) findViewById(R.id.name_second_container);
+            linearLayout2.setVisibility(View.GONE);
+
+        }
+
     }
 
     private void initThirdPlayer() {
@@ -251,6 +278,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        et3 = (EditText) findViewById(R.id.lable_second);
+
+        et3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et3.clearFocus();
+                    return true;
+                }
+
+                if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et3.clearFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     private void initFourthPlayer() {
@@ -272,6 +321,28 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 listClick(3);
+                return false;
+            }
+        });
+
+        et4 = (EditText) findViewById(R.id.lable_second);
+
+        et4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et4.clearFocus();
+                    return true;
+                }
+
+                if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    et4.clearFocus();
+                    return true;
+                }
                 return false;
             }
         });
@@ -335,9 +406,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v){
 
+        et.clearFocus();
+
         if(v.getId() == R.id.btn_setting){
             PopupMenu popupMenu = new PopupMenu(this, v);
             popupMenu.inflate(R.menu.popup_menu);
+
+            final MenuItem names = popupMenu.getMenu().findItem(R.id.show_names);
+
+            if(showName){
+                names.setChecked(true);
+            }
+                else {
+                names.setChecked(false);
+            }
+
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -370,6 +453,20 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.set_win_value:
                             showDialog();
 
+                            break;
+                        case R.id.show_names:
+                            if(showName){
+                                editor.putBoolean(SHOW_NAMES, false);
+                                names.setChecked(false);
+                                editor.commit();
+                                showName = false;
+                            } else
+                                if(!showName){
+                                    editor.putBoolean(SHOW_NAMES, true);
+                                    names.setChecked(true);
+                                    showName = true;
+                                    editor.commit();
+                                }
                             break;
 
                     }
@@ -448,6 +545,38 @@ public class MainActivity extends AppCompatActivity {
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(VIBRATION_TIME);
 
+    }
+
+    @Override
+    protected void onStop() {
+        System.out.println("onStop");
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        //editor.putStringSet();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        System.out.println("onResume");
+        super.onStop();
+    }
+    @Override
+    protected void onRestart() {
+        System.out.println("onRestart");
+        super.onStop();
+    }
+    @Override
+    protected void onDestroy() {
+        System.out.println("onDestroy");
+        super.onStop();
+    }
+    @Override
+    protected void onPause() {
+        System.out.println("onPause");
+        super.onStop();
     }
 
     public void restart(View v){
