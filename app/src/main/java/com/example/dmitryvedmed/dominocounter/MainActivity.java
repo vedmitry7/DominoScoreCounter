@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     private int numberOfPlayers;
     private int winValue;
 
+    LinearLayout linearLayout;
+    LinearLayout linearLayout2;
+
 
     EditText et;
     EditText et2;
@@ -245,10 +248,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(!showName) {
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.name_first_container);
+            linearLayout = (LinearLayout) findViewById(R.id.name_first_container);
             linearLayout.setVisibility(View.GONE);
 
-            LinearLayout linearLayout2 = (LinearLayout) findViewById(R.id.name_second_container);
+            linearLayout2 = (LinearLayout) findViewById(R.id.name_second_container);
             linearLayout2.setVisibility(View.GONE);
 
         }
@@ -460,15 +463,18 @@ public class MainActivity extends AppCompatActivity {
                                 names.setChecked(false);
                                 editor.commit();
                                 showName = false;
+                                linearLayout.setVisibility(View.GONE);
+                                linearLayout2.setVisibility(View.GONE);
                             } else
                                 if(!showName){
                                     editor.putBoolean(SHOW_NAMES, true);
                                     names.setChecked(true);
                                     showName = true;
                                     editor.commit();
+                                    linearLayout.setVisibility(View.VISIBLE);
+                                    linearLayout2.setVisibility(View.VISIBLE);
                                 }
                             break;
-
                     }
                     return false;
                 }
