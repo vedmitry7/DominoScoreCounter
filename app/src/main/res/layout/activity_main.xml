@@ -38,7 +38,6 @@
                 >
 
                 <ListView
-
                     android:layout_below="@+id/name_first_container"
                     android:paddingRight="6dp"
                     android:paddingLeft="6dp"
@@ -70,6 +69,7 @@
                         android:maxLines="1"
                         android:maxLength="10"
                          />
+
                     <RelativeLayout
                         android:layout_marginLeft="6dp"
                         android:background="#000000"
@@ -119,7 +119,7 @@
 
 
                     <EditText
-                        android:background="#45F5F5"
+                        android:background="#F5F5F5"
                         android:id="@+id/lable_second"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

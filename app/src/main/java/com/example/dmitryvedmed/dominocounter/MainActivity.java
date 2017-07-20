@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout linearLayout;
     LinearLayout linearLayout2;
+    LinearLayout linearLayout3;
+    LinearLayout linearLayout4;
 
 
     EditText et;
@@ -246,14 +248,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        linearLayout = (LinearLayout) findViewById(R.id.name_first_container);
+        linearLayout2 = (LinearLayout) findViewById(R.id.name_second_container);
+
 
         if(!showName) {
-            linearLayout = (LinearLayout) findViewById(R.id.name_first_container);
             linearLayout.setVisibility(View.GONE);
-
-            linearLayout2 = (LinearLayout) findViewById(R.id.name_second_container);
             linearLayout2.setVisibility(View.GONE);
-
         }
 
     }
@@ -281,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        et3 = (EditText) findViewById(R.id.lable_second);
+        et3 = (EditText) findViewById(R.id.lable_third);
 
         et3.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -303,6 +304,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        linearLayout3 = (LinearLayout) findViewById(R.id.name_third_container);
+        if(!showName) {
+            linearLayout3.setVisibility(View.GONE);
+        }
     }
 
     private void initFourthPlayer() {
@@ -328,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        et4 = (EditText) findViewById(R.id.lable_second);
+        et4 = (EditText) findViewById(R.id.lable_fourth);
 
         et4.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -350,6 +355,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        linearLayout4 = (LinearLayout) findViewById(R.id.name_fourth_container);
+        if(!showName) {
+            linearLayout4.setVisibility(View.GONE);
+        }
     }
 
     private void listClick(int pos){
@@ -465,6 +474,10 @@ public class MainActivity extends AppCompatActivity {
                                 showName = false;
                                 linearLayout.setVisibility(View.GONE);
                                 linearLayout2.setVisibility(View.GONE);
+                                if(linearLayout3!=null)
+                                linearLayout3.setVisibility(View.GONE);
+                                if(linearLayout4!=null)
+                                linearLayout4.setVisibility(View.GONE);
                             } else
                                 if(!showName){
                                     editor.putBoolean(SHOW_NAMES, true);
@@ -473,6 +486,10 @@ public class MainActivity extends AppCompatActivity {
                                     editor.commit();
                                     linearLayout.setVisibility(View.VISIBLE);
                                     linearLayout2.setVisibility(View.VISIBLE);
+                                    if(linearLayout3!=null)
+                                        linearLayout3.setVisibility(View.VISIBLE);
+                                    if(linearLayout4!=null)
+                                        linearLayout4.setVisibility(View.VISIBLE);
                                 }
                             break;
                     }
