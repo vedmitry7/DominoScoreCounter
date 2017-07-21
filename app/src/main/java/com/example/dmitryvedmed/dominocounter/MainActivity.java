@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -30,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ZERO = "0";
     private static final long VIBRATION_TIME = 25L;
-    private static final int ALPHA_54 = 138;
-    private static final int  ALPHA_87 = 222;
+    private static final int ALPHA_30 = 76;
+    private static final int ALPHA_60 = 153;
     private static final String  PREFERENCES = "domino_prefs";
     private static final String  NUMBER_OF_PLAYERS = "number_of_players";
     private static final String  WIN_VALUE = "win_value";
     private static final String  SHOW_NAMES = "show_names";
+    private static final String  LOCK_SCREEN = "lock_screen";
 
     private TextView certainScore;
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int[] values;
 
-    private boolean gameIsOver, showName;
+    private boolean gameIsOver, showName, disableLock;
 
     private byte lastAddition;
 
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         numberOfPlayers = sharedPreferences.getInt(NUMBER_OF_PLAYERS, 2);
         winValue = sharedPreferences.getInt(WIN_VALUE, 101);
         showName = sharedPreferences.getBoolean(SHOW_NAMES, false);
+        disableLock = sharedPreferences.getBoolean(LOCK_SCREEN, false);
 
         if(numberOfPlayers == 2){
             setContentView(R.layout.activity_main);
@@ -92,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
         } else
         if(numberOfPlayers == 4){
             setContentView(R.layout.activity_for_four_players);
+        }
+
+
+        if(disableLock){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
         firstList = new ArrayList<>();
@@ -114,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
         adaptersList = new ArrayList<>();
 
         values = new int[4];
-
 
         initView();
 
@@ -153,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         btn_cancel = (ImageButton) findViewById(R.id.cancel);
-        btn_cancel.getDrawable().setAlpha(ALPHA_87);
+        btn_cancel.getDrawable().setAlpha(ALPHA_30);
         btn_cancel.setClickable(false);
 
     }
@@ -371,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
         certainValue = Integer.valueOf(certainText);
         values[pos] = values[pos] + certainValue;
         lastAddition = (byte) (pos+1);
-        btn_cancel.getDrawable().setAlpha(ALPHA_87);
+        btn_cancel.getDrawable().setAlpha(ALPHA_60);
         btn_cancel.setClickable(true);
 
         adaptersListList.get(pos).add(certainText);
@@ -425,13 +432,20 @@ public class MainActivity extends AppCompatActivity {
             popupMenu.inflate(R.menu.popup_menu);
 
             final MenuItem names = popupMenu.getMenu().findItem(R.id.show_names);
-
             if(showName){
                 names.setChecked(true);
             }
                 else {
                 names.setChecked(false);
             }
+
+            final MenuItem lock = popupMenu.getMenu().findItem(R.id.lock);
+            if(disableLock){
+                lock.setChecked(true);
+            } else {
+                lock.setChecked(false);
+            }
+
 
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -462,10 +476,6 @@ public class MainActivity extends AppCompatActivity {
                             editor.commit();
                             MainActivity.this.recreate();
                             break;
-                        case R.id.set_win_value:
-                            showDialog();
-
-                            break;
                         case R.id.show_names:
                             if(showName){
                                 editor.putBoolean(SHOW_NAMES, false);
@@ -491,6 +501,21 @@ public class MainActivity extends AppCompatActivity {
                                     if(linearLayout4!=null)
                                         linearLayout4.setVisibility(View.VISIBLE);
                                 }
+                            break;
+                        case R.id.lock:
+                            if(disableLock){
+                                lock.setChecked(false);
+                                disableLock = false;
+                                editor.putBoolean(LOCK_SCREEN,false);
+                                editor.commit();
+                                getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                            } else {
+                                lock.setChecked(true);
+                                disableLock = true;
+                                editor.putBoolean(LOCK_SCREEN, true);
+                                editor.commit();
+                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                            }
                             break;
                     }
                     return false;
@@ -613,7 +638,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     setToZero();
-                    btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                    btn_cancel.getDrawable().setAlpha(ALPHA_30);
                     btn_cancel.setClickable(false);
                 }
             });
@@ -666,7 +691,7 @@ public class MainActivity extends AppCompatActivity {
                             gameIsOver = false;
                         }
                         lastAddition = 0;
-                        btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                        btn_cancel.getDrawable().setAlpha(ALPHA_30);
                         btn_cancel.setClickable(false);
                     }
                     if(lastAddition == 2){
@@ -680,7 +705,7 @@ public class MainActivity extends AppCompatActivity {
                             gameIsOver = false;
                         }
                         lastAddition = 0;
-                        btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                        btn_cancel.getDrawable().setAlpha(ALPHA_30);
                         btn_cancel.setClickable(false);
                     }
                     if(lastAddition == 3){
@@ -694,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
                             gameIsOver = false;
                         }
                         lastAddition = 0;
-                        btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                        btn_cancel.getDrawable().setAlpha(ALPHA_30);
                         btn_cancel.setClickable(false);
                     }
                     if(lastAddition == 4){
@@ -708,7 +733,7 @@ public class MainActivity extends AppCompatActivity {
                             gameIsOver = false;
                         }
                         lastAddition = 0;
-                        btn_cancel.getDrawable().setAlpha(ALPHA_54);
+                        btn_cancel.getDrawable().setAlpha(ALPHA_30);
                         btn_cancel.setClickable(false);
                     }
                 }

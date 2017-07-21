@@ -229,7 +229,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:alpha="0.2"
-            android:background="@drawable/ic_settings_grey600_36dp"
+            android:background="@drawable/ic_settings_grey600_24dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             />
@@ -250,7 +250,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:alpha="0.2"
-            android:background="@drawable/ic_backspace_grey600_48dp"
+            android:background="@drawable/ic_backspace_grey600_24dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
              />

@@ -15,11 +15,13 @@
         </menu>
     </item>
     <item
-        android:id="@+id/set_win_value"
-        android:title="Значение выигрыша"/>
-    <item
         android:id="@+id/show_names"
         android:title="Показывать имена"
+        android:checkable="true">
+    </item>
+    <item
+        android:id="@+id/lock"
+        android:title="Отключить блокировку"
         android:checkable="true">
     </item>
 </menu>
