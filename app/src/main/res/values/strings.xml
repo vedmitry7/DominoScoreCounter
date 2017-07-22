@@ -5,4 +5,5 @@
     <string name="ok">Ok</string>
     <string name="cancel">Отмена</string>
     <string name="question_cancel_last_enter">Отменить последний ввод?</string>
+    <string name="exit">Нажмите еще раз для выхода!</string>
 </resources>

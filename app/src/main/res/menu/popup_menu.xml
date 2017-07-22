@@ -24,4 +24,9 @@
         android:title="Отключить блокировку"
         android:checkable="true">
     </item>
+    <item
+        android:id="@+id/win_value"
+        android:title="Значение выигрыша">
+
+    </item>
 </menu>

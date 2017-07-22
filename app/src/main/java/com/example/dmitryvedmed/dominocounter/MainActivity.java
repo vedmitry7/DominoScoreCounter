@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         if (back_pressed + 2000 > System.currentTimeMillis())
             super.onBackPressed();
         else
-            Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода!",
+            Toast.makeText(getBaseContext(), R.string.exit,
                     Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
@@ -401,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
         View v = getLayoutInflater().inflate(R.layout.dialog, null);
 
         final EditText editText = (EditText) v.findViewById(R.id.editText);
+        editText.setHint(winValue);
 
         builder.setView(v);
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -419,7 +420,6 @@ public class MainActivity extends AppCompatActivity {
         });
         Dialog dialog = builder.create();
         dialog.show();
-
     }
 
 
@@ -516,6 +516,9 @@ public class MainActivity extends AppCompatActivity {
                                 editor.commit();
                                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             }
+                            break;
+                        case R.id.win_value:
+                            showDialog();
                             break;
                     }
                     return false;
