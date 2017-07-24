@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="win_value">Значение выигрыша</string>
+    <string name="show_name">Показывать имена</string>
+    <string name="restart">Заново</string>
+    <string name="question_new_game">Новая игра?</string>
+    <string name="name">Имя</string>
+    <string name="ok">Ok</string>
+    <string name="question_cancel_last_enter">Отменить последний ввод?</string>
+    <string name="enough">ХВАТАЕТ!</string>
+    <string name="disable_lock">Отключить блокировку</string>
+    <string name="cancel">Отмена</string>
+    <string name="amound_of_players">Колличество игроков</string>
+    <string name="exit">Нажмите еще раз для выхода!</string>
+    <string name="app_name">Счет в домино</string>
+</resources>

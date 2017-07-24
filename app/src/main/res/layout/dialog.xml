@@ -3,12 +3,14 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
+        android:paddingTop="16dp"
         android:id="@+id/editText"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:inputType="number"
+
         android:text=""
         android:maxLength="4"
         android:background="@color/white"

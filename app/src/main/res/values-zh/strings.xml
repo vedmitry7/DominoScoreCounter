@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DominoCounter</string>
+    <string name="amound_of_players">游戏者数量</string>
+    <string name="ok">同意</string>
+    <string name="cancel">取消</string>
+    <string name="win_value">奖品值</string>
+    <string name="show_name">显示名称</string>
+    <string name="disable_lock">禁用锁屏</string>
+</resources>

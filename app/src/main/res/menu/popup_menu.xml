@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/amound"
-        android:title="Колличество игроков">
+        android:title="@string/amound_of_players">
 
         <menu>
             <item android:title="2"
@@ -16,17 +16,17 @@
     </item>
     <item
         android:id="@+id/show_names"
-        android:title="Показывать имена"
+        android:title="@string/show_name"
         android:checkable="true">
     </item>
     <item
         android:id="@+id/lock"
-        android:title="Отключить блокировку"
+        android:title="@string/disable_lock"
         android:checkable="true">
     </item>
     <item
         android:id="@+id/win_value"
-        android:title="Значение выигрыша">
+        android:title="@string/win_value">
 
     </item>
 </menu>

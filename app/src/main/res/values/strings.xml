@@ -1,9 +1,19 @@
 <resources>
     <string name="app_name">DominoCounter</string>
-    <string name="enough">ХВАТАЕТ!</string>
-    <string name="question_new_game">Новая игра?</string>
+
     <string name="ok">Ok</string>
-    <string name="cancel">Отмена</string>
-    <string name="question_cancel_last_enter">Отменить последний ввод?</string>
-    <string name="exit">Нажмите еще раз для выхода!</string>
+    <string name="cancel">Cancel</string>
+    <string name="enough">ENOUGH!</string>
+    <string name="restart">Restart</string>
+    <string name="name">Name</string>
+    <string name="question_new_game">Start a new game?</string>
+    <string name="win_value">Winning value</string>
+    <string name="amound_of_players">Number of players</string>
+    <string name="show_name">Show names</string>
+    <string name="disable_lock">Disable lock</string>
+    <string name="question_cancel_last_enter">Do you want to cancel the last entry?</string>
+    <string name="exit">Click again to exit!</string>
+
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

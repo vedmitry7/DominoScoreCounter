@@ -23,6 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,74 +37,89 @@ public class MainActivity extends AppCompatActivity {
     private static final long VIBRATION_TIME = 25L;
     private static final int ALPHA_30 = 76;
     private static final int ALPHA_60 = 153;
+    private static final int DEFAULT_WIN_VALUE = 101;
     private static final String  PREFERENCES = "domino_prefs";
     private static final String  NUMBER_OF_PLAYERS = "number_of_players";
     private static final String  WIN_VALUE = "win_value";
     private static final String  SHOW_NAMES = "show_names";
     private static final String  LOCK_SCREEN = "lock_screen";
 
-    private TextView certainScore;
-
     private ArrayList<TextView> finalScoreList;
-
-    private ImageButton btn_cancel;
-
     private List<String> firstList, secondList, thirdList, fourthList;
-
     private List<List<String>> adaptersListList;
-
     private List<ListView> listViewList;
-
     private List<ArrayAdapter<String>> adaptersList;
 
     private int certainValue;
-
     private int[] values;
-
-    private boolean gameIsOver, showName, disableLock;
-
+    private int numberOfPlayers;
+    private int winValue;
     private byte lastAddition;
+    private boolean gameIsOver, showName, disableLock;
 
     private SharedPreferences sharedPreferences;
 
-    private int numberOfPlayers;
-    private int winValue;
+    private AdView mAdView;
 
-    LinearLayout linearLayout;
-    LinearLayout linearLayout2;
-    LinearLayout linearLayout3;
-    LinearLayout linearLayout4;
+    private TextView certainScore;
+    private ImageButton btn_cancel;
 
+    private LinearLayout linearLayout1;
+    private LinearLayout linearLayout2;
+    private LinearLayout linearLayout3;
+    private LinearLayout linearLayout4;
 
-    EditText et;
-    EditText et2;
-    EditText et3;
-    EditText et4;
+    private EditText et1;
+    private EditText et2;
+    private EditText et3;
+    private EditText et4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         numberOfPlayers = sharedPreferences.getInt(NUMBER_OF_PLAYERS, 2);
-        winValue = sharedPreferences.getInt(WIN_VALUE, 101);
-        showName = sharedPreferences.getBoolean(SHOW_NAMES, false);
-        disableLock = sharedPreferences.getBoolean(LOCK_SCREEN, false);
 
         if(numberOfPlayers == 2){
             setContentView(R.layout.activity_main);
-        } else
-        if(numberOfPlayers == 3){
-            setContentView(R.layout.activity_for_three_players);
-        } else
-        if(numberOfPlayers == 4){
-            setContentView(R.layout.activity_for_four_players);
+        } else {
+            if(numberOfPlayers == 3){
+                setContentView(R.layout.activity_for_three_players);
+            } else {
+                if(numberOfPlayers == 4){
+                    setContentView(R.layout.activity_for_four_players);
+                }
+            }
         }
 
+        winValue = sharedPreferences.getInt(WIN_VALUE, DEFAULT_WIN_VALUE);
+        showName = sharedPreferences.getBoolean(SHOW_NAMES, false);
+        disableLock = sharedPreferences.getBoolean(LOCK_SCREEN, false);
 
         if(disableLock){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView.setVisibility(View.GONE);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                if (mAdView.getVisibility() == View.GONE) {
+                    mAdView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("C0E54F36D1EAFE3108DCA20202956B61")
+                .build();
+        mAdView.loadAd(adRequest);
+
+
 
         firstList = new ArrayList<>();
         secondList = new ArrayList<>();
@@ -118,27 +137,22 @@ public class MainActivity extends AppCompatActivity {
 
         finalScoreList = new ArrayList<>();
         listViewList = new ArrayList<>();
-
         adaptersList = new ArrayList<>();
-
         values = new int[4];
 
         initView();
 
-       // LinearLayout linearLayout = findViewById(R.id.)
 
-
-     /*   LinearLayout myLayout = (LinearLayout) findViewById(R.id.scoreboard);
-        myLayout.requestFocus();
-*/
     }
 
     private static long back_pressed;
 
     @Override
     public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis())
-            super.onBackPressed();
+        if (back_pressed + 2000 > System.currentTimeMillis()){
+            //super.onBackPressed();
+            this.finish();
+        }
         else
             Toast.makeText(getBaseContext(), R.string.exit,
                     Toast.LENGTH_SHORT).show();
@@ -209,24 +223,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        et = (EditText) findViewById(R.id.lable_first);
+        et1 = (EditText) findViewById(R.id.lable_first);
 
-        et.setOnKeyListener(new View.OnKeyListener() {
+        et1.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                System.out.println("KEEEEY");
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    et.clearFocus();
+                    et1.clearFocus();
                     return true;
                 }
-
                 if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    et.clearFocus();
-                    System.out.println("CATCH BACK");
+                    et1.clearFocus();
                     return true;
                 }
                 return false;
@@ -244,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
                     et2.clearFocus();
                     return true;
                 }
-
                 if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -255,12 +265,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        linearLayout = (LinearLayout) findViewById(R.id.name_first_container);
+        linearLayout1 = (LinearLayout) findViewById(R.id.name_first_container);
         linearLayout2 = (LinearLayout) findViewById(R.id.name_second_container);
 
 
         if(!showName) {
-            linearLayout.setVisibility(View.GONE);
+            linearLayout1.setVisibility(View.GONE);
             linearLayout2.setVisibility(View.GONE);
         }
 
@@ -273,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
         ListView thirdListView = (ListView) findViewById(R.id.third_list_view);
         listViewList.add(thirdListView);
 
-
         ArrayAdapter<String> thirdAdapter = new ArrayAdapter(this,
                 R.layout.list_item, adaptersListList.get(2));
         thirdListView.setAdapter(thirdAdapter);
@@ -283,14 +292,12 @@ public class MainActivity extends AppCompatActivity {
         thirdListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
                 listClick(2);
                 return false;
             }
         });
 
         et3 = (EditText) findViewById(R.id.lable_third);
-
         et3.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -300,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
                     et3.clearFocus();
                     return true;
                 }
-
                 if((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)){
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -324,24 +330,20 @@ public class MainActivity extends AppCompatActivity {
         ListView fourthListView = (ListView) findViewById(R.id.fourth_list_view);
         listViewList.add(fourthListView);
 
-
         ArrayAdapter<String> fourthAdapter = new ArrayAdapter(this,
                 R.layout.list_item, adaptersListList.get(3));
         fourthListView.setAdapter(fourthAdapter);
 
         adaptersList.add(fourthAdapter);
-
         fourthListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
                 listClick(3);
                 return false;
             }
         });
 
         et4 = (EditText) findViewById(R.id.lable_fourth);
-
         et4.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -397,11 +399,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Значение выигрыша");
+        builder.setTitle(R.string.win_value);
         View v = getLayoutInflater().inflate(R.layout.dialog, null);
 
         final EditText editText = (EditText) v.findViewById(R.id.editText);
-        editText.setHint(winValue);
+        editText.setHint(String.valueOf(winValue));
 
         builder.setView(v);
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -425,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v){
 
-        et.clearFocus();
+        et1.clearFocus();
 
         if(v.getId() == R.id.btn_setting){
             PopupMenu popupMenu = new PopupMenu(this, v);
@@ -452,6 +454,10 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     switch (item.getItemId()){
+
+                        case R.id.win_value:
+                            showDialog();
+                            break;
                         case R.id.two_players:
                             if(numberOfPlayers == 2)
                                 break;
@@ -482,7 +488,7 @@ public class MainActivity extends AppCompatActivity {
                                 names.setChecked(false);
                                 editor.commit();
                                 showName = false;
-                                linearLayout.setVisibility(View.GONE);
+                                linearLayout1.setVisibility(View.GONE);
                                 linearLayout2.setVisibility(View.GONE);
                                 if(linearLayout3!=null)
                                 linearLayout3.setVisibility(View.GONE);
@@ -494,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
                                     names.setChecked(true);
                                     showName = true;
                                     editor.commit();
-                                    linearLayout.setVisibility(View.VISIBLE);
+                                    linearLayout1.setVisibility(View.VISIBLE);
                                     linearLayout2.setVisibility(View.VISIBLE);
                                     if(linearLayout3!=null)
                                         linearLayout3.setVisibility(View.VISIBLE);
@@ -516,9 +522,6 @@ public class MainActivity extends AppCompatActivity {
                                 editor.commit();
                                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             }
-                            break;
-                        case R.id.win_value:
-                            showDialog();
                             break;
                     }
                     return false;
@@ -584,10 +587,9 @@ public class MainActivity extends AppCompatActivity {
             certainScore.setText(certainText);
         }
 
-
         if(!certainScore.getText().equals("") && !certainScore.getText().equals(getString(R.string.enough))){
             certainValue = Integer.valueOf((String) certainScore.getText());
-            if(certainValue >= 101){
+            if(certainValue >= winValue){
                 certainScore.setText(((String) certainScore.getText()).substring(0, certainScore.getText().length()-1));
                 return;
             }
@@ -600,34 +602,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        System.out.println("onStop");
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-        //editor.putStringSet();
         super.onStop();
     }
 
     @Override
     protected void onResume() {
-        System.out.println("onResume");
         super.onStop();
+
+        if(mAdView!=null)
+        mAdView.resume();
     }
     @Override
     protected void onRestart() {
-        System.out.println("onRestart");
         super.onStop();
     }
     @Override
     protected void onDestroy() {
-        System.out.println("onDestroy");
         super.onStop();
+
+        if(mAdView!=null)
+        mAdView.destroy();
     }
     @Override
     protected void onPause() {
-        System.out.println("onPause");
         super.onStop();
+
+        if(mAdView!=null)
+        mAdView.pause();
     }
 
     public void restart(View v){
@@ -749,5 +750,4 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
     }
-
 }
