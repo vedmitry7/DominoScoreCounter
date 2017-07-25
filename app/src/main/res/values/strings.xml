@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DominoCounter</string>
+    <string name="app_name">Domino Score</string>
 
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
@@ -14,6 +14,6 @@
     <string name="question_cancel_last_enter">Do you want to cancel the last entry?</string>
     <string name="exit">Click again to exit!</string>
 
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2209532931509792/2162388242</string>
 
 </resources>

@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+      //  MobileAds.initialize(this, "ca-app-pub-2209532931509792~6001598897");
+
         winValue = sharedPreferences.getInt(WIN_VALUE, DEFAULT_WIN_VALUE);
         showName = sharedPreferences.getBoolean(SHOW_NAMES, false);
         disableLock = sharedPreferences.getBoolean(LOCK_SCREEN, false);
@@ -115,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice("C0E54F36D1EAFE3108DCA20202956B61")
                 .build();
         mAdView.loadAd(adRequest);
 
