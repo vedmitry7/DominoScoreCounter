@@ -13,4 +13,7 @@
     <string name="amound_of_players">Колличество игроков</string>
     <string name="exit">Нажмите еще раз для выхода!</string>
     <string name="app_name">Счет в домино</string>
+    <string name="rate">Оценить</string>
+    <string name="rate_dialog_title">Оцените приложение</string>
+    <string name="rate_dialog_message">Пожалуйста, оцените приложение, это займет не больше минуты! Ваша оценка для нас очень важна)</string>
 </resources>

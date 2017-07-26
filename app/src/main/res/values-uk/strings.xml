@@ -13,4 +13,7 @@
     <string name="amound_of_players">Кількість гравців</string>
     <string name="ok">Ok</string>
     <string name="app_name">Рахунок в домiно</string>
+    <string name="rate">Оцінити</string>
+    <string name="rate_dialog_title">Оцініть програму</string>
+    <string name="rate_dialog_message">Будь ласка, оцініть додаток, це займе не більше хвилини! Ваша оцінка для нас дуже важлива)</string>
 </resources>
